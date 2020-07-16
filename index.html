@@ -1,3 +1,4 @@
+
 <!DOCTYPE HTML>
 <html >
   <head>
@@ -15,11 +16,65 @@
         <h1 class="display-4">Student Enrollment program</h1>
         <hr class="my-4">
           <button class="btn btn-outline-info" type="button" id="students">Students</button>
-          <button class="btn btn-outline-info" type="button" id="Courses">courses</button>
-          <button class="btn btn-outline-info" type="button" id="new_student">New Student</button>
+          <button class="btn btn-outline-info" type="button" id="courses">Courses</button>
+          <button class="btn btn-outline-info" type="button" id="new_student" data-toggle="modal" data-target="#newStudent_id">New Student</button>
+      </div>
+
+    </div>
+
+    <!-- Modal form Add course-->
+    <div class="modal fade" id="courses_id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">You can select not more than 4 courses</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <select id="position" class="custom-select">
+                <option selected>- Courses -</option>
+              </select>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" data-dismiss="modal" class="btn btn-primary save">Save changes</button>
+          </div>
+        </div>
       </div>
     </div>
 
+     <!-- Modal form Add new student-->
+     <div class="modal fade" id="newStudent_id" tabindex="-1" role="dialog" aria-labelledby="student form" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h6 class="modal-title w-100 text-center" id="exampleModalLabel">Fill in the fields</h6>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!-- registrarion form-->
+            <form>
+              <div class="form-group">
+                <div class="row">
+                  <div class="col">
+                    <input type="text" class="form-control" placeholder="Name">
+                  </div>
+                  <div class="col">
+                    <input type="text" class="form-control" placeholder="Last name">
+                  </div>
+                </div>
+              </div>
+                <button type="submit" class="btn btn-outline-primary mx-auto" data-dismiss="modal">Save changes</button>
+            </form><!-- registrarion form-->
+          </div>
+        </div>
+      </div>
+    </div><!-- /Modal reservation form-->
 
 
 
