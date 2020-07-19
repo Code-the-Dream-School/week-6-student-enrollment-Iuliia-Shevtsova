@@ -33,14 +33,14 @@
             </button>
           </div>
           <div class="modal-body">
-            <form>
+            <form id="formCourses">
               <select id="position" class="custom-select">
                 <option selected>- Courses -</option>
               </select>
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" data-dismiss="modal" class="btn btn-primary save">Save changes</button>
+            <button type="submit" data-dismiss="modal" class="btn btn-primary save">Save changes</button>
           </div>
         </div>
       </div>
@@ -57,19 +57,19 @@
             </button>
           </div>
           <div class="modal-body">
-            <!-- registrarion form-->
-            <form>
+            <!-- adding new student form-->
+            <form id="formNewStudent">
               <div class="form-group">
                 <div class="row">
                   <div class="col">
-                    <input type="text" class="form-control" placeholder="Name">
+                    <input type="text" class="form-control" id="name" placeholder="Name">
                   </div>
                   <div class="col">
-                    <input type="text" class="form-control" placeholder="Last name">
+                    <input type="text" class="form-control" id="lastName" placeholder="Last name">
                   </div>
                 </div>
               </div>
-                <button type="submit" class="btn btn-outline-primary mx-auto" data-dismiss="modal">Save changes</button>
+                <button type="submit" class="btn btn-outline-primary mx-auto saveNewstudentBut" data-dismiss="modal">Save changes</button>
             </form><!-- registrarion form-->
           </div>
         </div>
