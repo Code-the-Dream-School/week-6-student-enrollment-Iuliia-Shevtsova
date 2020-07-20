@@ -27,24 +27,48 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">You can select not more than 4 courses</h5>
+            <h6 class="modal-title" id="exampleModalLabel">You can select not more than 4 courses per student</h6>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
             <form id="formCourses">
-              <select id="position" class="custom-select">
+              <select id="positionCourses" class="custom-select">
                 <option selected>- Courses -</option>
               </select>
             </form>
           </div>
           <div class="modal-footer">
-            <button type="submit" data-dismiss="modal" class="btn btn-primary save">Save changes</button>
+            <button type="submit" data-dismiss="modal" class="btn btn-primary saveCourse">Save changes</button>
           </div>
         </div>
       </div>
-    </div>
+    </div> <!-- /Modal form Add course-->
+
+    <!-- Modal form Add student to course-->
+    <div class="modal fade" id="students_id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h6 class="modal-title" id="exampleModalLabel">You can add not more than 3 students per course</h6>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="formStudents">
+              <select id="positionStudents" class="custom-select">
+                <option selected>- Students -</option>
+              </select>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" data-dismiss="modal" class="btn btn-primary saveStudent">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div> <!-- /Modal form Add student to course-->
 
      <!-- Modal form Add new student-->
      <div class="modal fade" id="newStudent_id" tabindex="-1" role="dialog" aria-labelledby="student form" aria-hidden="true">
@@ -70,11 +94,11 @@
                 </div>
               </div>
                 <button type="submit" class="btn btn-outline-primary mx-auto saveNewstudentBut" data-dismiss="modal">Save changes</button>
-            </form><!-- registrarion form-->
+            </form><!-- /adding new student form-->
           </div>
         </div>
       </div>
-    </div><!-- /Modal reservation form-->
+    </div><!-- /Modal form Add new student-->
 
 
 
