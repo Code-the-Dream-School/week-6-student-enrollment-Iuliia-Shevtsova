@@ -9,6 +9,8 @@ const url_students = 'https://code-the-dream-school.github.io/JSONStudentsApp.gi
 const url_courses = 'https://code-the-dream-school.github.io/JSONStudentsApp.github.io/Courses.json';
 const form =  document.getElementById('formCourses');
 
+var students = [];
+var courses = [];
 
 const divMain = document.createElement('div');
 divMain.className = 'main';
@@ -33,37 +35,6 @@ async function getJSON2 (url){
     }
 }
 
-//creating list of students
-studentsBut.addEventListener ('click', (e) => {
-    e.preventDefault();
-    Promise.all([
-        getJSON2(url_students),//array of students's info
-        getJSON2(url_courses) //array of courses's info
-    ])
-    .then (data => {
-        var students = data[0];
-        var courses = data[1];
-        //console.log(students);
-        //console.log(courses);
-        generateStudentsHTML(students);
-        generateSelectCourse(courses);
-    })
-});
-
-coursesBut.addEventListener ('click', (e) => {
-    e.preventDefault();
-    Promise.all([
-        getJSON2(url_students),//array of students's info
-        getJSON2(url_courses) //array of courses's info
-    ])
-    .then (data => {
-        var students = data[0];
-        var courses = data[1];
-        generateCoursesHTML(courses);
-        generateSelectStudent(students);
-    })
-});
-
 class Student {
     constructor(name, last_name, status, id) {
         this.name = name; 
@@ -83,39 +54,93 @@ class Course {
     }
 }
 
-function getStudentsArray(data){
-    var students = [];
-    data.forEach(element => {
-        var student = new Student(element.name, element.last_name, element.status, element.id, element.courses);
-        students.push(student);
+function getStudentsArray(){
+    Promise.resolve(getJSON2(url_students))
+    .then (data => {
+        data.forEach(element => {
+            var student = new Student(element.name, element.last_name, element.status, element.id, element.courses);
+            students.push(student);
+        })
+        console.log(students)
+        console.log(students[0])
+        return students;
     })
-    return students;
+    console.log(students)
+    console.log(students[0])
+    //return students;
 }
 
-function getCoursesArray(data){
-    var courses = [];
-    data.forEach(element => {
-        var course = new Course(element.name, element.duration, element.id, element.students);
-        courses.push(course);
+function getCoursesArray(){
+    Promise.resolve(getJSON2(url_courses))
+    .then (data => {
+        data.forEach(element => {
+            var course = new Course(element.name, element.duration, element.id, element.students);
+            courses.push(course);
+        })
+        console.log(courses)
+        console.log(courses[0])
+        return courses;
     })
-    return courses;
+    //return courses;
 }
+
+getStudentsArray(); 
+console.log(students);
+// console.log(students[0]);
+// students.forEach(student => {
+//     console.log(student)
+// })
+getCoursesArray();
+console.log(courses);
+
+//creating list of students
+studentsBut.addEventListener ('click', (e) => {
+    e.preventDefault();
+    console.log(students);
+    generateStudentsHTML(students);
+    generateSelectCourse(courses);
+});
+
+coursesBut.addEventListener ('click', (e) => {
+    e.preventDefault();
+    generateCoursesHTML(courses);
+    generateSelectStudent(students);
+});
 
 //creating HTML for students info
-function generateStudentsHTML(data) {
+function generateStudentsHTML(students) {
     ul.textContent = '';
-    var students = getStudentsArray(data);
-    console.log(students);
+    //var students = getStudentsArray(data);
+    //console.log(students);
     studentsHTML(students);
     
     saveChangesBut.addEventListener('click', (e) => {
         console.log('button clicked');
         e.preventDefault();
-        var buttonID = saveChangesBut.id;        
-        var selectedCourse = select.value;
+        var buttonID = saveChangesBut.id;//to identify student and form assign button ID on the student's form to the button on the form        
+        var selectedCourse = select.value; 
+        var selectedCourseID;
         addCourseToStudent(students, buttonID, selectedCourse);//add course to the array 'students.courses'
+        buttonID = ''; // clear value of ID, otherwise we will have several courses with the same id
         ul.textContent = '';
         studentsHTML(students);
+    });
+}
+
+function generateCoursesHTML(courses) {
+    ul.textContent = '';
+    //var courses = getCoursesArray(data);
+    coursesHTML(courses);
+
+    saveChangesBut2.addEventListener('click', (e) => {
+        console.log('button clicked');
+        e.preventDefault();
+        var buttonID = saveChangesBut2.id;        
+        var selectedStudent = select2.value;
+        addStudentToCourse(courses, buttonID, selectedStudent);//add course to the array 'students.courses'
+        buttonID = ''; 
+        ul.textContent = '';
+        coursesHTML(courses);
     });
 }
 
@@ -173,29 +198,14 @@ function studentsHTML(students) {
         // send id value to saveButton id
         addCourse.addEventListener('click', (e) => {
             e.preventDefault();
-            saveChangesBut.id = student.id;
+            saveChangesBut.id = student.id; // to identify student and form assign student ID value to button ID and then assign it to the button on the form
         });
-    });
-}
-
-function generateCoursesHTML(data) {
-    ul.textContent = '';
-    var courses = getCoursesArray(data);
-    coursesHTML(courses);
-
-    saveChangesBut2.addEventListener('click', (e) => {
-        console.log('button clicked');
-        e.preventDefault();
-        var buttonID = saveChangesBut2.id;        
-        var selectedStudent = select2.value;
-        addStudentToCourse(courses, buttonID, selectedStudent);//add course to the array 'students.courses'
-        ul.textContent = '';
-        coursesHTML(courses);
     });
 }
 
 //creating HTML for courses info
 function coursesHTML(courses) {
+    console.log(courses);
     courses.forEach(course => {
         //create li for each student
         const li = document.createElement('li');
@@ -240,37 +250,54 @@ function coursesHTML(courses) {
             saveChangesBut2.id = course.id;
         });
     })
-  }
+}
 
 //generate option tags for choosing courses
 function generateSelectCourse(courses) {
     for (let i=0; i<courses.length; i++) {
-      var option = document.createElement('option');
-      option.textContent = courses[i].name;
-      select.appendChild(option);
+        var option = document.createElement('option');
+        option.textContent = courses[i].name;
+        select.appendChild(option);
     }
 }
 
 function generateSelectStudent(students) {
     for (let i=0; i<students.length; i++) {
-      var option = document.createElement('option');
-      option.textContent = students[i].name + ' ' + students[i].last_name;
-      select2.appendChild(option);
+        var option = document.createElement('option');
+        option.textContent = students[i].name + ' ' + students[i].last_name;
+        select2.appendChild(option);
     }
 }
 
-function addCourseToStudent(students, studentID, selectedCourse) {
+function addCourseToStudent(students, buttonID, selectedCourse) {
+    var studentName = '';
     students.forEach(student => {
-        if (student.id == studentID && student.courses.length < 4) {
+        if (student.id == buttonID && student.courses.length < 4) {
             student.courses.push(selectedCourse);
+            studentName = student.name + ' ' + student.last_name;
+        }
+    })
+
+    courses.forEach(course => {
+        if (selectedCourse === course.name) {
+            course.students.push(studentName);
         }
     })
 }
 
-function addStudentToCourse(courses, courseID, selectedStudent) {
+function addStudentToCourse(courses, buttonID, selectedStudent) {
+    var courseName = '';
     courses.forEach(course => {
-        if (course.id == courseID && course.students.length < 3) {
+        if (course.id == buttonID && course.students.length < 3) {
             course.students.push(selectedStudent);
+            courseName = course.name;
+        }
+    })
+
+    students.forEach(student => {
+        var studentName = student.name + ' ' + student.last_name;
+        if (selectedStudent === studentName) {
+            student.courses.push(courseName);
         }
     })
 }
@@ -284,21 +311,21 @@ async function postData(url = '', data = {}) {
 
   // Default options are marked with *
     const response = await fetch(url, {
-        method: 'POST', // *GET, POST, PUT, DELETE, etc.
-        mode: 'cors', // no-cors, *cors, same-origin
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: 'same-origin', // include, *same-origin, omit
+        method: 'POST', 
+        mode: 'cors', 
+        cache: 'no-cache', 
+        credentials: 'same-origin', 
         headers: {
         'Content-Type': 'application/json'
         // 'Content-Type': 'application/x-www-form-urlencoded',
         },
-        redirect: 'follow', // manual, *follow, error
-        referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        redirect: 'follow', 
+        referrerPolicy: 'no-referrer', 
         //body: console.log(data)
-        body: JSON.stringify(data)// body data type must match "Content-Type" header
+        body: JSON.stringify(data)
     });
     //return response.text();
-    return response.json(); // parses JSON response into native JavaScript objects
+    return response.json(); 
 }
 
 saveNewstudentBut.addEventListener('click', (e) => {
